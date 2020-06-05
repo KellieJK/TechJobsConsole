@@ -75,7 +75,7 @@ namespace TechJobsConsole
             {
                 while (reader.Peek() >= 0)
                 {
-                    string line = reader.ReadLine();
+                    string line = reader.ReadLine().ToLower();
                     string[] rowArrray = CSVRowToStringArray(line);
                     if (rowArrray.Length > 0)
                     {
@@ -102,7 +102,8 @@ namespace TechJobsConsole
             IsDataLoaded = true;
         }
 
-        /*
+
+           /*
          * Parse a single line of a CSV file into a string array
          */
         private static string[] CSVRowToStringArray(string row, char fieldSeparator = ',', char stringSeparator = '\"')
@@ -133,10 +134,33 @@ namespace TechJobsConsole
             }
 
             // Add the final value
-            rowValues.Add(valueBuilder.ToString());
+            rowValues.Add(valueBuilder.ToString().ToLower());
             valueBuilder.Clear();
 
             return rowValues.ToArray();
+
+        }
+
+
+        public static List<Dictionary<string, string>> FindByValue(string value)
+        {
+            LoadData();
+            List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
+            string rowInfo = value.ToLower();
+
+            foreach (Dictionary<string, string> row in AllJobs)
+            { foreach (string jobValue in row.Values)
+                {  string aValue = jobValue.ToLower();
+                    if (aValue.Contains(rowInfo))
+                    { if (jobs.Contains(row)){
+                        }
+                        else{
+                            jobs.Add(row);
+                        }
+                    }
+                }
+            }
+            return jobs;
         }
     }
 }

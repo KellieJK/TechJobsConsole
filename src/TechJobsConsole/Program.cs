@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 
 namespace TechJobsConsole
 {
@@ -56,8 +57,8 @@ namespace TechJobsConsole
 
                     // What is their search term?
                     Console.WriteLine("\nSearch term: ");
-                    string searchTerm = Console.ReadLine();
-
+                    string searchTerm = Console.ReadLine().ToLower();
+                    
                     List<Dictionary<string, string>> searchResults;
 
                     // Fetch results
@@ -92,19 +93,16 @@ namespace TechJobsConsole
 
             do
             {
-                Console.WriteLine("\n" + choiceHeader + " by:");
+                Console.WriteLine("\n" + choiceHeader.ToLower() + " by:");
 
                 for (int j = 0; j < choiceKeys.Length; j++)
-                {
-                    Console.WriteLine(j + " - " + choices[choiceKeys[j]]);
+                { Console.WriteLine(j + " - " + choices[choiceKeys[j]]);
                 }
-
-                string input = Console.ReadLine();
+                 string input = Console.ReadLine();
                 choiceIdx = int.Parse(input);
 
                 if (choiceIdx < 0 || choiceIdx >= choiceKeys.Length)
-                {
-                    Console.WriteLine("Invalid choices. Try again.");
+                { Console.WriteLine("Invalid choices. Try again.");
                 }
                 else
                 {
@@ -118,7 +116,24 @@ namespace TechJobsConsole
 
         private static void PrintJobs(List<Dictionary<string, string>> someJobs)
         {
-            Console.WriteLine("PrintJobs is not implemented yet");
+            if (someJobs.Count == 0)
+            { Console.WriteLine("No job listing available.");
+            }
+            for (int i = 0; i < someJobs.Count; i++)
+            {   List<string> jobsListing = new List<string>();
+                List<string> jobListing = new List<string>();
+                foreach (string listingInfo in someJobs[i].Keys)
+                {jobsListing.Add(listingInfo);
+                }
+                foreach (string jobReqs in someJobs[i].Values)
+                {jobListing.Add(jobReqs);
+                }
+                Console.WriteLine("****");
+                for (int x = 0; x < jobsListing.Count; x++)
+                {Console.WriteLine(jobsListing[x] + " : " + jobListing[x]);
+                }
+                Console.WriteLine("****\n");
+            }   Console.WriteLine(someJobs.Count + " results returned for your search");
         }
     }
 }
