@@ -29,7 +29,7 @@ namespace TechJobsConsole
             while (true)
             {
 
-                string actionChoice = GetUserSelection("View Jobs", actionChoices);
+                       string actionChoice = GetUserSelection("View Jobs", actionChoices);
 
                 if (actionChoice.Equals("list"))
                 {
@@ -64,7 +64,8 @@ namespace TechJobsConsole
                     // Fetch results
                     if (columnChoice.Equals("all"))
                     {
-                        Console.WriteLine("Search all fields not yet implemented.");
+                        searchResults = JobData.FindByValue(searchTerm);
+                        PrintJobs(searchResults);
                     }
                     else
                     {
